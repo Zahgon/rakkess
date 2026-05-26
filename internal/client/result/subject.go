@@ -17,10 +17,6 @@ limitations under the License.
 package result
 
 import (
-	"sort"
-	"strings"
-
-	"github.com/corneliusweig/rakkess/internal/constants"
 	"github.com/corneliusweig/rakkess/internal/printer"
 	v1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -51,123 +47,39 @@ type SubjectAccess struct {
 
 // NewSubjectAccess creates a new SubjectAccess with initialized fields.
 func NewSubjectAccess(resource, resourceName string) *SubjectAccess {
-	return &SubjectAccess{
-		Resource:       resource,
-		ResourceName:   resourceName,
-		roleToVerbs:    make(map[RoleRef]sets.String),
-		subjectToVerbs: make(map[SubjectRef]sets.String),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get provides access to the actual result (for testing).
-func (sa *SubjectAccess) Get() map[SubjectRef]sets.String {
-	return sa.subjectToVerbs
-}
+func (sa *SubjectAccess) Get() map[SubjectRef]sets.String { _ = "STUB: not implemented"; return nil }
 
 // Empty checks if any subjects with access were found.
-func (sa *SubjectAccess) Empty() bool {
-	return len(sa.subjectToVerbs) == 0
-}
+func (sa *SubjectAccess) Empty() bool { _ = "STUB: not implemented"; return false }
 
 // ResolveRoleRef takes a RoleRef and a list of subjects and stores the access
 // rights of the given role for each subject. The RoleRef and subjects usually
 // come from a (Cluster)RoleBinding.
 func (sa *SubjectAccess) ResolveRoleRef(r RoleRef, subjects []v1.Subject) {
-	verbsForRole, ok := sa.roleToVerbs[r]
-	if !ok {
-		return
-	}
-	for _, subject := range subjects {
-		s := SubjectRef{
-			Name:      subject.Name,
-			Kind:      subject.Kind,
-			Namespace: subject.Namespace,
-		}
-		if verbs, ok := sa.subjectToVerbs[s]; ok {
-			sa.subjectToVerbs[s] = verbs.Union(verbsForRole)
-		} else {
-			sa.subjectToVerbs[s] = verbsForRole
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // MatchRules takes a RoleRef and a PolicyRule and adds the rule verbs to the
 // allowed verbs for the RoleRef, if the sa.resource matches the rule.
 // The RoleRef and rule usually come from a (Cluster)Role.
 func (sa *SubjectAccess) MatchRules(ref RoleRef, rule v1.PolicyRule) {
-	if len(rule.ResourceNames) > 0 && !includes(rule.ResourceNames, sa.ResourceName) {
-		return
-	}
-
-	for _, r := range rule.Resources {
-		if r == v1.ResourceAll || r == sa.Resource {
-			expandedVerbs := expand(rule.Verbs)
-			if verbs, ok := sa.roleToVerbs[ref]; ok {
-				sa.roleToVerbs[ref] = sets.NewString(expandedVerbs...).Union(verbs)
-			} else {
-				sa.roleToVerbs[ref] = sets.NewString(expandedVerbs...)
-			}
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func includes(coll []string, x string) bool {
-	if x == "" {
-		return false
-	}
-	for _, s := range coll {
-		if s == x {
-			return true
-		}
-	}
-	return false
-}
+func includes(coll []string, x string) bool { _ = "STUB: not implemented"; return false }
 
-func expand(verbs []string) []string {
-	for _, verb := range verbs {
-		if verb == v1.VerbAll {
-			return constants.ValidVerbs
-		}
-	}
-	return verbs
-}
+func expand(verbs []string) []string { _ = "STUB: not implemented"; return nil }
 
 func (sa *SubjectAccess) Table(verbs []string) *printer.Table {
-	subjects := make([]SubjectRef, 0, len(sa.subjectToVerbs))
-	for s := range sa.subjectToVerbs {
-		subjects = append(subjects, s)
-	}
-	sort.Slice(subjects, func(i, j int) bool {
-		comp := strings.Compare(subjects[i].Name, subjects[j].Name)
-		if comp == 0 {
-			return subjects[i].Kind < subjects[j].Kind
-		}
-		return comp < 0
-	})
-
-	headers := []string{"NAME", "KIND", "SA-NAMESPACE"}
-	for _, v := range verbs {
-		headers = append(headers, strings.ToUpper(v))
-	}
-	p := printer.TableWithHeaders(headers)
-
-	// table body
-	for _, s := range subjects {
-		valid := sa.subjectToVerbs[s]
-		if !valid.HasAny(verbs...) {
-			continue
-		}
-		var outcomes []printer.Outcome
-		for _, v := range verbs {
-			o := printer.Down
-			if valid.Has(v) {
-				o = printer.Up
-			}
-			outcomes = append(outcomes, o)
-		}
-		intro := []string{s.Name, s.Kind, s.Namespace}
-		p.AddRow(intro, outcomes...)
-	}
-
-	return p
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// table body

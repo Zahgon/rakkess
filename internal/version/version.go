@@ -19,7 +19,6 @@ package version
 import (
 	"fmt"
 	"runtime"
-	"strings"
 
 	"github.com/blang/semver"
 )
@@ -39,19 +38,13 @@ type BuildInfo struct {
 
 // GetBuildInfo returns build information about the binary
 func GetBuildInfo() *BuildInfo {
+	_ = "STUB: not implemented"
 	// These vars are set via -ldflags settings during 'go build'
-	return &BuildInfo{
-		Version:   version,
-		GitCommit: gitCommit,
-		BuildDate: buildDate,
-		GoVersion: runtime.Version(),
-		Compiler:  runtime.Compiler,
-		Platform:  platform,
-	}
+	return nil
 }
 
 // ParseVersion parses a version string ignoring a leading `v`. For example: v1.2.3
 func ParseVersion(version string) (semver.Version, error) {
-	version = strings.TrimLeft(strings.TrimSpace(version), "v")
-	return semver.Parse(version)
+	_ = "STUB: not implemented"
+	return *new(semver.Version), nil
 }

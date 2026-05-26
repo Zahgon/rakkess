@@ -17,12 +17,8 @@ limitations under the License.
 package printer
 
 import (
-	"fmt"
 	"io"
-	"strings"
 	"sync"
-
-	"github.com/corneliusweig/tabwriter"
 )
 
 type color int
@@ -57,95 +53,24 @@ type Table struct {
 	Rows    []Row
 }
 
-func TableWithHeaders(headers []string) *Table {
-	return &Table{
-		Headers: headers,
-	}
-}
+func TableWithHeaders(headers []string) *Table { _ = "STUB: not implemented"; return nil }
 
-func (p *Table) AddRow(intro []string, outcomes ...Outcome) {
-	row := Row{
-		Intro:   intro,
-		Entries: outcomes,
-	}
-	p.Rows = append(p.Rows, row)
-}
+func (p *Table) AddRow(intro []string, outcomes ...Outcome) { _ = "STUB: not implemented"; return }
 
-func (p *Table) Render(out io.Writer, outputFormat string) {
-	once.Do(func() { initTerminal(out) })
+func (p *Table) Render(out io.Writer, outputFormat string) { _ = "STUB: not implemented"; return }
 
-	conv := humanreadableAccessCode
-	if isTerminal(out) {
-		conv = colored(conv)
-	}
-	if outputFormat == "ascii-table" {
-		conv = asciiAccessCode
-	}
+// table header
 
-	w := tabwriter.NewWriter(out, 4, 8, 2, ' ', tabwriter.SmashEscape|tabwriter.StripEscape)
-	defer w.Flush()
+// table body
 
-	// table header
-	for i, h := range p.Headers {
-		if i == 0 {
-			fmt.Fprint(w, h)
-		} else {
-			fmt.Fprintf(w, "\t%s", h)
-		}
-	}
-	fmt.Fprint(w, "\n")
+// FIXME
 
-	// table body
-	for _, row := range p.Rows {
-		fmt.Fprintf(w, "%s", strings.Join(row.Intro, "\t"))
-		for _, e := range row.Entries {
-			fmt.Fprintf(w, "\t%s", conv(e)) // FIXME
-		}
-		fmt.Fprint(w, "\n")
-	}
-}
+func humanreadableAccessCode(o Outcome) string { _ = "STUB: not implemented"; return "" }
 
-func humanreadableAccessCode(o Outcome) string {
-	switch o {
-	case None:
-		return ""
-	case Up:
-		return "✔" // ✓
-	case Down:
-		return "✖" // ✕
-	case Err:
-		return "ERR"
-	default:
-		panic("unknown access code")
-	}
-}
+// ✓
 
-func colored(wrap func(Outcome) string) func(Outcome) string {
-	return func(o Outcome) string {
-		c := none
-		switch o {
-		case Up:
-			c = green
-		case Down:
-			c = red
-		case Err:
-			c = purple
-		}
-		return fmt.Sprintf("\xff\033[%dm\xff%s\xff\033[0m\xff", c, wrap(o))
-	}
-}
+// ✕
 
-func asciiAccessCode(o Outcome) string {
-	switch o {
-	case None:
-		return "n/a"
-	case Up:
-		return "yes"
-	case Down:
-		return "no"
-	case Err:
-		return "ERR"
-	default:
-		panic("unknown access code")
-	}
-}
+func colored(wrap func(Outcome) string) func(Outcome) string { _ = "STUB: not implemented"; return nil }
+
+func asciiAccessCode(o Outcome) string { _ = "STUB: not implemented"; return "" }

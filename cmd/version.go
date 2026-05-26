@@ -17,10 +17,6 @@ limitations under the License.
 package cmd
 
 import (
-	"text/template"
-
-	"github.com/corneliusweig/rakkess/internal/version"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -50,19 +46,4 @@ func init() {
 	versionCmd.Flags().BoolP(flagFull, "f", false, "print extended version information")
 }
 
-func runVersion(cmd *cobra.Command, _ []string) error {
-	var tpl string
-
-	if cmd.Flag(flagFull).Changed {
-		tpl = fullInfoTemplate
-	} else {
-		tpl = versionTemplate
-	}
-
-	var t = template.Must(template.New("info").Parse(tpl))
-
-	if err := t.Execute(opts.Streams.Out, version.GetBuildInfo()); err != nil {
-		return errors.Wrapf(err, "could not print version info")
-	}
-	return nil
-}
+func runVersion(cmd *cobra.Command, _ []string) error { _ = "STUB: not implemented"; return nil }

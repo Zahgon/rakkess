@@ -1,3 +1,4 @@
+//go:build accessmatrix
 // +build accessmatrix
 
 /*
@@ -18,13 +19,6 @@ limitations under the License.
 
 package constants
 
-import "strings"
-
 const CommandName = "access-matrix"
 
-func HelpTextMapName(text string) string {
-	return strings.NewReplacer(
-		"Rakkess", "Kubectl access-matrix",
-		"$ rakkess", "$ kubectl access-matrix",
-	).Replace(text)
-}
+func HelpTextMapName(text string) string { _ = "STUB: not implemented"; return "" }

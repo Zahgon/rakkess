@@ -17,9 +17,6 @@ limitations under the License.
 package result
 
 import (
-	"sort"
-	"strings"
-
 	"github.com/corneliusweig/rakkess/internal/printer"
 )
 
@@ -28,40 +25,10 @@ type ResourceAccess map[string]map[string]Access
 
 // Print implements MatrixPrinter.Print. It prints a tab-separated table with a header.
 func (ra ResourceAccess) Table(verbs []string) *printer.Table {
-	var names []string
-	for name := range ra {
-		names = append(names, name)
-	}
-	sort.Strings(names)
-
-	// table header
-	headers := []string{"NAME"}
-	for _, v := range verbs {
-		headers = append(headers, strings.ToUpper(v))
-	}
-
-	p := printer.TableWithHeaders(headers)
-
-	// table body
-	for _, name := range names {
-		var outcomes []printer.Outcome
-
-		res := ra[name]
-		for _, v := range verbs {
-			var o printer.Outcome
-			switch res[v] {
-			case Denied:
-				o = printer.Down
-			case Allowed:
-				o = printer.Up
-			case NotApplicable:
-				o = printer.None
-			case RequestErr:
-				o = printer.Err
-			}
-			outcomes = append(outcomes, o)
-		}
-		p.AddRow([]string{name}, outcomes...)
-	}
-	return p
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// table header
+
+// table body

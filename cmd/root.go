@@ -138,10 +138,7 @@ var rootCmd = &cobra.Command{
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() error {
-	rootCmd.SetOutput(opts.Streams.Out)
-	return rootCmd.Execute()
-}
+func Execute() error { _ = "STUB: not implemented"; return nil }
 
 func init() {
 	klog.InitFlags(flag.CommandLine)
@@ -159,10 +156,4 @@ func init() {
 }
 
 // AddRakkessFlags sets up common flags for subcommands.
-func AddRakkessFlags(cmd *cobra.Command) {
-	cmd.Flags().StringSliceVar(&opts.Verbs, constants.FlagVerbs, []string{"list", "create", "update", "delete"}, fmt.Sprintf("show access for verbs out of (%s)", strings.Join(constants.ValidVerbs, ", ")))
-	cmd.Flags().StringVarP(&opts.OutputFormat, constants.FlagOutput, "o", "icon-table", fmt.Sprintf("output format out of (%s)", strings.Join(constants.ValidOutputFormats, ", ")))
-	cmd.Flags().StringSliceVar(&diffWith, constants.FlagDiffWith, nil, "Show diff for modified call. For example --diff-with=namespace=kube-system.")
-
-	opts.ConfigFlags.AddFlags(cmd.Flags())
-}
+func AddRakkessFlags(cmd *cobra.Command) { _ = "STUB: not implemented"; return }

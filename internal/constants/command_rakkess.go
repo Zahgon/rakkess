@@ -1,3 +1,4 @@
+//go:build !accessmatrix
 // +build !accessmatrix
 
 /*
@@ -20,6 +21,4 @@ package constants
 
 const CommandName = "rakkess"
 
-func HelpTextMapName(text string) string {
-	return text
-}
+func HelpTextMapName(text string) string { _ = "STUB: not implemented"; return "" }

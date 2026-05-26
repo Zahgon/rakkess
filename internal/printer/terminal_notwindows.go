@@ -1,3 +1,4 @@
+//go:build !windows
 // +build !windows
 
 /*
@@ -25,18 +26,9 @@ package printer
 
 import (
 	"io"
-	"os"
-
-	"golang.org/x/term"
 )
 
 // initTerminal enables ANSI color escape sequences. On UNIX, they are always enabled.
-func initTerminal(_ io.Writer) {
-}
+func initTerminal(_ io.Writer) { _ = "STUB: not implemented"; return }
 
-func isTerminalImpl(w io.Writer) bool {
-	if f, ok := w.(*os.File); ok {
-		return term.IsTerminal(int(f.Fd()))
-	}
-	return false
-}
+func isTerminalImpl(w io.Writer) bool { _ = "STUB: not implemented"; return false }

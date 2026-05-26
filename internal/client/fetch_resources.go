@@ -17,14 +17,9 @@ limitations under the License.
 package client
 
 import (
-	"fmt"
-
 	"github.com/corneliusweig/rakkess/internal/options"
-	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
-	"k8s.io/klog/v2"
 )
 
 var (
@@ -39,62 +34,15 @@ type GroupResource struct {
 }
 
 // Extracts the full name including APIGroup, e.g. 'deployment.apps'
-func (g GroupResource) fullName() string {
-	if g.APIGroup == "" {
-		return g.APIResource.Name
-	}
-	return fmt.Sprintf("%s.%s", g.APIResource.Name, g.APIGroup)
-}
+func (g GroupResource) fullName() string { _ = "STUB: not implemented"; return "" }
 
 // FetchAvailableGroupResources fetches a list of known APIResources on the server.
 func FetchAvailableGroupResources(opts *options.RakkessOptions) ([]GroupResource, error) {
-	client, err := getDiscoveryClient(opts)
-	if err != nil {
-		return nil, errors.Wrap(err, "discovery client")
-	}
-
-	client.Invalidate()
-
-	var resourcesFetcher func() ([]*metav1.APIResourceList, error)
-	if opts.ConfigFlags.Namespace == nil || *opts.ConfigFlags.Namespace == "" {
-		resourcesFetcher = client.ServerPreferredResources
-	} else {
-		resourcesFetcher = client.ServerPreferredNamespacedResources
-	}
-
-	resources, err := resourcesFetcher()
-	if err != nil {
-		if resources == nil {
-			return nil, errors.Wrap(err, "get preferred resources")
-		}
-		klog.Warningf("Could not fetch full list of resources, result will be incomplete: %s", err)
-	}
-
-	var grs []GroupResource
-	for _, list := range resources {
-		if len(list.APIResources) == 0 {
-			continue
-		}
-		gv, err := schema.ParseGroupVersion(list.GroupVersion)
-		if err != nil {
-			klog.Warningf("Cannot parse groupVersion: %s", err)
-			continue
-		}
-		for _, r := range list.APIResources {
-			if len(r.Verbs) == 0 {
-				continue
-			}
-
-			grs = append(grs, GroupResource{
-				APIGroup:    gv.Group,
-				APIResource: r,
-			})
-		}
-	}
-
-	return grs, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func getDiscoveryClientImpl(opts *options.RakkessOptions) (discovery.CachedDiscoveryInterface, error) {
-	return opts.DiscoveryClient()
+	_ = "STUB: not implemented"
+	return *new(discovery.CachedDiscoveryInterface), nil
 }

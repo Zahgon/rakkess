@@ -19,20 +19,8 @@ package cmd
 import (
 	"context"
 	"os"
-	"os/signal"
-	"syscall"
 )
 
-func catchCtrlC(cancel context.CancelFunc) {
-	catchSigs(cancel, syscall.SIGINT, syscall.SIGPIPE, syscall.SIGTERM)
-}
+func catchCtrlC(cancel context.CancelFunc) { _ = "STUB: not implemented"; return }
 
-func catchSigs(cancel context.CancelFunc, sigs ...os.Signal) {
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, sigs...)
-
-	go func() {
-		<-sigChan
-		cancel()
-	}()
-}
+func catchSigs(cancel context.CancelFunc, sigs ...os.Signal) { _ = "STUB: not implemented"; return }
